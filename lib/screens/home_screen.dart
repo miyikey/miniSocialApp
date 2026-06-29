@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'create_post_screen.dart';
 import 'profile_screen.dart';
+import '../widgets/post_card.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -73,52 +74,20 @@ class _HomeScreenState extends State<HomeScreen> {
         ],
       ),
 
-      body: ListView.builder(
-        padding: const EdgeInsets.all(16),
-        itemCount: posts.length,
-        itemBuilder: (context, index) {
-          final post = posts[index];
+body: ListView.builder(
+  padding: const EdgeInsets.all(16),
+  itemCount: posts.length,
+  itemBuilder: (context, index) {
+    final post = posts[index];
 
-          return Card(
-            margin: const EdgeInsets.only(bottom: 16),
-            child: Padding(
-              padding: const EdgeInsets.all(16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    post['name']!,
-                    style: const TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16,
-                    ),
-                  ),
-
-                  const SizedBox(height: 8),
-
-                  Text(post['content']!),
-
-                  const SizedBox(height: 12),
-
-                  Row(
-                    children: [
-                      const Icon(Icons.favorite_border, size: 20),
-                      const SizedBox(width: 4),
-                      Text(post['likes']!),
-
-                      const SizedBox(width: 20),
-
-                      const Icon(Icons.comment_outlined, size: 20),
-                      const SizedBox(width: 4),
-                      Text(post['comments']!),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-          );
-        },
-      ),
+    return PostCard(
+      name: post['name']!,
+      content: post['content']!,
+      likes: post['likes']!,
+      comments: post['comments']!,
+    );
+  },
+),
 
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: 0,

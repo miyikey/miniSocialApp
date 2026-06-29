@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../widgets/post_card.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -88,11 +89,14 @@ class ProfileScreen extends StatelessWidget {
           const SizedBox(height: 12),
 
           ...myPosts.map((post) {
-            return Card(
-              margin: const EdgeInsets.only(bottom: 16),
-              child: Padding(
-                padding: const EdgeInsets.all(16),
-                child: Column(
+            return PostCard(
+              name: 'Michella',
+              content: post['content']!,
+              likes: post['likes']!,
+              comments: post['comments']!,
+              showName: false,
+            );
+          }),
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(post['content']!),
