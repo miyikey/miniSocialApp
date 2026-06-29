@@ -1,33 +1,57 @@
 import 'package:flutter/material.dart';
 import 'home_screen.dart';
-import 'signup_screen.dart';
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+class SignupScreen extends StatefulWidget {
+  const SignupScreen({super.key});
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  State<SignupScreen> createState() => _SignupScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _SignupScreenState extends State<SignupScreen> {
+  final nameController = TextEditingController();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
+  final confirmPasswordController = TextEditingController();
 
-  bool isLoading = false;
   bool hidePassword = true;
+  bool isLoading = false;
   String errorMessage = '';
 
-  void login() {
+  void signup() {
+    final name = nameController.text.trim();
     final email = emailController.text.trim();
     final password = passwordController.text.trim();
+    final confirmPassword = confirmPasswordController.text.trim();
 
     setState(() {
       errorMessage = '';
     });
 
-    if (email.isEmpty || password.isEmpty) {
+    if (name.isEmpty || email.isEmpty || password.isEmpty || confirmPassword.isEmpty) {
       setState(() {
-        errorMessage = 'Please enter your email and password.';
+        errorMessage = 'Please fill in all fields.';
+      });
+      return;
+    }
+
+    if (!email.contains('@')) {
+      setState(() {
+        errorMessage = 'Please enter a valid email.';
+      });
+      return;
+    }
+
+    if (password.length < 6) {
+      setState(() {
+        errorMessage = 'Password must be at least 6 characters.';
+      });
+      return;
+    }
+
+    if (password != confirmPassword) {
+      setState(() {
+        errorMessage = 'Passwords do not match.';
       });
       return;
     }
@@ -36,19 +60,28 @@ class _LoginScreenState extends State<LoginScreen> {
       isLoading = true;
     });
 
-    // Fake login for now
+    // Fake signup for now
     Future.delayed(const Duration(seconds: 1), () {
       setState(() {
         isLoading = false;
       });
 
-      // Later this will go to the home screen
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(
-        builder: (context) => const HomeScreen(),
-      ),
-    );
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const HomeScreen(),
+        ),
+      );
+    });
+  }
+
+  @override
+  void dispose() {
+    nameController.dispose();
+    emailController.dispose();
+    passwordController.dispose();
+    confirmPasswordController.dispose();
+    super.dispose();
   }
 
   @override
@@ -62,10 +95,10 @@ class _LoginScreenState extends State<LoginScreen> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 const Text(
-                  'CampusLoop',
+                  'Create Account',
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                    fontSize: 34,
+                    fontSize: 32,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -73,12 +106,22 @@ class _LoginScreenState extends State<LoginScreen> {
                 const SizedBox(height: 12),
 
                 const Text(
-                  'Welcome back',
+                  'Join CampusLoop',
                   textAlign: TextAlign.center,
                   style: TextStyle(fontSize: 18),
                 ),
 
                 const SizedBox(height: 40),
+
+                TextField(
+                  controller: nameController,
+                  decoration: const InputDecoration(
+                    labelText: 'Full name',
+                    border: OutlineInputBorder(),
+                  ),
+                ),
+
+                const SizedBox(height: 16),
 
                 TextField(
                   controller: emailController,
@@ -111,6 +154,17 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
 
+                const SizedBox(height: 16),
+
+                TextField(
+                  controller: confirmPasswordController,
+                  obscureText: hidePassword,
+                  decoration: const InputDecoration(
+                    labelText: 'Confirm password',
+                    border: OutlineInputBorder(),
+                  ),
+                ),
+
                 const SizedBox(height: 12),
 
                 if (errorMessage.isNotEmpty)
@@ -122,33 +176,23 @@ class _LoginScreenState extends State<LoginScreen> {
                 const SizedBox(height: 24),
 
                 ElevatedButton(
-                  onPressed: isLoading ? null : login,
+                  onPressed: isLoading ? null : signup,
                   child: isLoading
                       ? const CircularProgressIndicator()
-                      : const Text('Log in'),
+                      : const Text('Sign up'),
                 ),
 
                 const SizedBox(height: 16),
 
-                TextButton(
-                  onPressed: () {},
-                  child: const Text('Forgot password?'),
-                ),
-
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Text("Don't have an account?"),
+                    const Text('Already have an account?'),
                     TextButton(
                       onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const SignupScreen(),
-                          ),
-                        );
+                        Navigator.pop(context);
                       },
-                      child: const Text('Sign up'),
+                      child: const Text('Log in'),
                     ),
                   ],
                 ),

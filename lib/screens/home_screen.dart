@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'create_post_screen.dart';
+import 'profile_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -48,6 +49,14 @@ class _HomeScreenState extends State<HomeScreen> {
   void handleBottomNavTap(int index) {
     if (index == 1) {
       openCreatePostScreen();
+    }
+    if (index == 2) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const ProfileScreen(),
+        ),
+      );
     }
   }
 
