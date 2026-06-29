@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../models/post.dart';
 
 class CreatePostScreen extends StatefulWidget {
   const CreatePostScreen({super.key});
@@ -22,13 +23,12 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
       return;
     }
 
-    final newPost = {
-      'name': 'Michella',
-      'content': content,
-      'likes': '0',
-      'comments': '0',
-    };
-
+    final newPost = Post(
+      name: 'Michella',
+      content: content,
+      likes: 0,
+      comments: 0,
+    );
     Navigator.pop(context, newPost);
   }
 

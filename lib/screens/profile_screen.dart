@@ -97,30 +97,6 @@ class ProfileScreen extends StatelessWidget {
               showName: false,
             );
           }),
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(post['content']!),
-
-                    const SizedBox(height: 12),
-
-                    Row(
-                      children: [
-                        const Icon(Icons.favorite_border, size: 20),
-                        const SizedBox(width: 4),
-                        Text(post['likes']!),
-
-                        const SizedBox(width: 20),
-
-                        const Icon(Icons.comment_outlined, size: 20),
-                        const SizedBox(width: 4),
-                        Text(post['comments']!),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-            );
-          }),
         ],
       ),
     );
