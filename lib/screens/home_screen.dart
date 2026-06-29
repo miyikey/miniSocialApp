@@ -86,6 +86,15 @@ body: ListView.builder(
       content: post.content,
       likes: post.likes.toString(),
       comments: post.comments.toString(),
+      isLiked: post.isLiked,
+      onLike: () {
+        setState(() {
+          posts[index] = post.copyWith(
+            isLiked: !post.isLiked,
+            likes: post.isLiked ? post.likes - 1 : post.likes + 1,
+          );
+        });
+      },
     );
   },
 ),

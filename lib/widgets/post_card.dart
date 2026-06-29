@@ -6,6 +6,8 @@ class PostCard extends StatelessWidget {
   final String likes;
   final String comments;
   final bool showName;
+  final bool isLiked;
+  final VoidCallback? onLike;
 
   const PostCard({
     super.key,
@@ -14,6 +16,8 @@ class PostCard extends StatelessWidget {
     required this.likes,
     required this.comments,
     this.showName = true,
+    required this.isLiked,
+    this.onLike,
   });
 
   @override
@@ -61,8 +65,13 @@ class PostCard extends StatelessWidget {
 
             Row(
               children: [
-                const Icon(Icons.favorite_border, size: 20),
-                const SizedBox(width: 4),
+                IconButton(
+                  onPressed: onLike,
+                  icon: Icon(
+                    isLiked ? Icons.favorite : Icons.favorite_border,
+                    size: 20,
+                  ),
+                ),
                 Text(likes),
 
                 const SizedBox(width: 20),
